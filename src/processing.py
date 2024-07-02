@@ -13,18 +13,29 @@ def filter_by_state(list_dict: list[dict], state: str = "EXECUTED") -> list[dict
     Функция возвращает новый список словарей, содержащий только те словари, у которых ключ state
     соответствует указанному значению.
     """
-    new_list_dict = []
+    filtered_list_dict = []
     for dict_values in list_dict:
         if state == "EXECUTED":
             for value in dict_values.values():
                 if value == state:
-                    new_list_dict.append(dict_values)
+                    filtered_list_dict.append(dict_values)
         elif state:
             for value in dict_values.values():
                 if value == state:
-                    new_list_dict.append(dict_values)
-    return new_list_dict
+                    filtered_list_dict.append(dict_values)
+    return filtered_list_dict
+
+
+def sort_by_date(list_dict: list[dict], sort_default: str = "decrease") -> list[dict]:
+    """
+    Сортирует список-словарей по датам (по умолчанию - убывание)
+    """
+    if sort_default == "decrease":
+        return sorted(list_dict, key=lambda dict_list: dict_list["date"], reverse=True)
+    elif sort_default == "increase":
+        return sorted(list_dict, key=lambda dict_list: dict_list["date"])
 
 
 if __name__ == "__main__":
     print(filter_by_state(test_dict_list))
+    print(sort_by_date(test_dict_list))

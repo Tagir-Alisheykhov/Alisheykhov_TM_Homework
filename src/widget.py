@@ -61,6 +61,7 @@ def get_data(raw_date: str) -> str:
     split_date = date_clear_split[::-1]
     final_result = ".".join(split_date)
     return final_result
+# здесь нужно добавить сортировку по дням, датам. месяцам
 
 
 if __name__ == "__main__":
