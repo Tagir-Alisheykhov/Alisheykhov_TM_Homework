@@ -20,4 +20,4 @@ git clone https://github.com/Tagir-Alisheykhov/Alisheykhov_TM_Homework.git
 
 ## Лицензия:
 
-Этот проект лицензирован по [лицензии MIT](LICENSE).
+Этот проект не лицензирован

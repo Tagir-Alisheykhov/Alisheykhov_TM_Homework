@@ -26,13 +26,13 @@ def filter_by_state(list_dict: list[dict], state: str = "EXECUTED") -> list[dict
     return filtered_list_dict
 
 
-def sort_by_date(list_dict: list[dict], sort_default: str = "decrease") -> list[dict]:
+def sort_by_date(list_dict: list[dict], sort_default: bool = True) -> list[dict]:
     """
     Сортирует список-словарей по датам (по умолчанию - убывание)
     """
-    if sort_default == "decrease":
+    if sort_default:
         return sorted(list_dict, key=lambda dict_list: dict_list["date"], reverse=True)
-    elif sort_default == "increase":
+    else:
         return sorted(list_dict, key=lambda dict_list: dict_list["date"])
 
 
