@@ -15,27 +15,21 @@ def filter_by_state(list_dict: list[dict], state: str = "EXECUTED") -> list[dict
     """
     filtered_list_dict = []
     for dict_values in list_dict:
-        if state == "EXECUTED":
-            for value in dict_values.values():
-                if value == state:
-                    filtered_list_dict.append(dict_values)
-        elif state:
-            for value in dict_values.values():
-                if value == state:
-                    filtered_list_dict.append(dict_values)
+        if state in dict_values.values():
+            filtered_list_dict.append(dict_values)
     return filtered_list_dict
 
 
-def sort_by_date(list_dict: list[dict], sort_default: bool = True) -> list[dict]:
+def sort_by_date(list_dict: list[dict], is_sort_default: bool = True) -> list[dict]:
     """
     Сортирует список-словарей по датам (по умолчанию - убывание)
     """
-    if sort_default:
+    if is_sort_default:
         return sorted(list_dict, key=lambda dict_list: dict_list["date"], reverse=True)
     else:
         return sorted(list_dict, key=lambda dict_list: dict_list["date"])
 
 
 if __name__ == "__main__":
-    print(filter_by_state(test_dict_list))
+    print(filter_by_state(test_dict_list, "CANCELED"))
     print(sort_by_date(test_dict_list))
