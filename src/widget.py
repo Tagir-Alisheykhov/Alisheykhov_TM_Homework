@@ -48,7 +48,7 @@ def mask_account_cart(type_and_number_cart: str) -> str:
 def get_data(raw_date: str) -> str:
     """
     Функция, которая принимает данные о дате
-    и прочего, и выводит только дату
+    и прочее, выводя только дату
     """
     slice_date = raw_date[:10]
     date_clear = ""
@@ -61,7 +61,6 @@ def get_data(raw_date: str) -> str:
     split_date = date_clear_split[::-1]
     final_result = ".".join(split_date)
     return final_result
-# здесь нужно добавить сортировку по дням, датам. месяцам
 
 
 if __name__ == "__main__":
