@@ -2,7 +2,8 @@ from src.masks import get_mask_card_number, get_mask_account
 
 
 # Примеры входных данных:
-cart_and_account_numbers = """ Maestro 1596837868705199
+cart_and_account_numbers = """ 
+Maestro 1596837868705199
 Счет 64686473678894779589
 MasterCard 7158300734726758
 Счет 35383033474447895560
@@ -36,13 +37,12 @@ def mask_account_cart(type_and_number_cart: str) -> str:
                 name_and_number.append(masks_numb_account)
                 new_list.append(name_and_number)
                 name_and_number = list()
-        else:
-            continue
+        continue
     ready_data = ""
     for values_cart in new_list:
         translate_into_a_line = " ".join(values_cart)
         ready_data += translate_into_a_line + "\n"
-    return ready_data
+    return ready_data[:-1]
 
 
 def get_data(raw_date: str) -> str:
