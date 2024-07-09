@@ -33,4 +33,4 @@ def sort_by_date(list_dict: list[dict], is_sort_default: bool = True) -> list[di
 
 if __name__ == "__main__":
     print(filter_by_state(test_dict_list, "CANCELED"))
-    # print(sort_by_date(test_dict_list))
+    print(sort_by_date(test_dict_list))
