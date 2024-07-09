@@ -15,8 +15,9 @@ def filter_by_state(list_dict: list[dict], state: str = "EXECUTED") -> list[dict
     """
     filtered_list_dict = []
     for dict_values in list_dict:
-        if state in dict_values.values():
-            filtered_list_dict.append(dict_values)
+        for key in dict_values:
+            if state == dict_values[key]:
+                filtered_list_dict.append(dict_values)
     return filtered_list_dict
 
 
@@ -32,4 +33,4 @@ def sort_by_date(list_dict: list[dict], is_sort_default: bool = True) -> list[di
 
 if __name__ == "__main__":
     print(filter_by_state(test_dict_list, "CANCELED"))
-    print(sort_by_date(test_dict_list))
+    # print(sort_by_date(test_dict_list))
