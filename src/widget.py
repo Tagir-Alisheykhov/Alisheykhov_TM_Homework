@@ -2,8 +2,7 @@ from src.masks import get_mask_card_number, get_mask_account
 
 
 # Примеры входных данных:
-cart_and_account_numbers = """ 
-Maestro 1596837868705199
+cart_and_account_numbers = """ Maestro 1596837868705199
 Счет 64686473678894779589
 MasterCard 7158300734726758
 Счет 35383033474447895560
@@ -12,13 +11,14 @@ Visa Platinum 8990922113665229
 Visa Gold 5999414228426353
 Счет 73654108430135874305 """
 
-date = "2018-07-11T02:26:18.671407"
+date = "2018-08-11TO2:26:18.671407"
 
 
 def mask_account_cart(type_and_number_cart: str) -> str:
     """
     Функция принимает тип и номер карты
-    или номер счета выводя их замаскированными
+    или номер счета выводя их замаскированными. Если номер карты введен неверно,
+    то программа выдает ошибку
     """
     split_numbers_cart = type_and_number_cart.split()
     new_list = []
@@ -37,7 +37,8 @@ def mask_account_cart(type_and_number_cart: str) -> str:
                 name_and_number.append(masks_numb_account)
                 new_list.append(name_and_number)
                 name_and_number = list()
-        continue
+            else:
+                raise ValueError("Неправильное количество цифр в номере")
     ready_data = ""
     for values_cart in new_list:
         translate_into_a_line = " ".join(values_cart)
@@ -50,13 +51,19 @@ def get_data(raw_date: str) -> str:
     Функция, которая принимает данные о дате
     и прочее, выводя только дату
     """
-    slice_date = raw_date[:10]
+    index_symbol = raw_date.index("T")
+    cut_raw_date = raw_date[:index_symbol]
     date_clear = ""
-    for one_symbol in range(len(slice_date)):
-        if slice_date[one_symbol].isdigit():
-            date_clear += slice_date[one_symbol]
-        else:
-            date_clear += " "
+    if len(cut_raw_date) != 10:
+        raise ValueError("Неверные данные")
+    else:
+        for one_symbol in raw_date:
+            if one_symbol == "T":
+                break
+            elif one_symbol.isdigit():
+                date_clear += one_symbol
+            elif not one_symbol.isdigit():
+                date_clear += " "
     date_clear_split = date_clear.split()
     split_date = date_clear_split[::-1]
     final_result = ".".join(split_date)
