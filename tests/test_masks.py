@@ -37,7 +37,7 @@ def test_invalid_get_account_cart_if_not_value():
 
 
 def test_invalid_value_not_isdigit_in_account_with_mask():
-    """ Проверка ошибки, если номер cчета состоит не только из цифр """
+    """ Проверка ошибки, если номер счета состоит не только из цифр """
     with pytest.raises(ValueError):
         get_mask_account("t11ig11t11x1oo1e1y1u")
 
@@ -48,5 +48,3 @@ def test_account_with_mask_invalid_size():
         get_mask_account("222")
     with pytest.raises(ValueError):
         get_mask_account("2222222222222222222222")
-
-
