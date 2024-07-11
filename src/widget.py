@@ -11,7 +11,7 @@ Visa Platinum 8990922113665229
 Visa Gold 5999414228426353
 Счет 73654108430135874305 """
 
-date = "" "2018-08-11TO2:26:18.671407"
+date = "   " #"2018-08-11TO2:26:18.671407"
 
 
 def mask_account_cart(type_and_number_cart: str) -> str:
@@ -52,7 +52,7 @@ def get_data(raw_date: str) -> str:
     и прочее, выводя только дату
     """
     raw_date_str = str(raw_date)
-    if raw_date_str == "" or raw_date_str == " ":
+    if raw_date_str == "":
         raise ValueError("Строка не должна быть пустой")
     stop_symbol_index = raw_date_str.index("T")
     cut_raw_date = raw_date_str[:stop_symbol_index]

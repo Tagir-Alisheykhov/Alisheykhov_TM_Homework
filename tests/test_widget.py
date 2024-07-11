@@ -79,8 +79,16 @@ def test_get_data_invalid_presence_of_value_separators():
 
 
 def test_get_data_invalid_empty_line():
+    """ Ошибка на пустую строку """
     with pytest.raises(ValueError):
         get_data("")
-    with pytest.raises(ValueError):
-        get_data(" ")
 
+
+def test_get_data_invalid_no_symbol_t():
+    """
+    Проверка отсутствия буквы 'Т' - означающую разделение
+    между датой и временем во входных данных. Этот символ необходим, чтобы
+    корректно изъять только дату, отбрасывая данные о времени
+    """
+    with pytest.raises(ValueError):
+        get_data("2018-07-1102:26:18.671407")
