@@ -20,6 +20,8 @@ def mask_account_cart(type_and_number_cart: str) -> str:
     или номер счета выводя их замаскированными. Если номер карты введен неверно,
     то программа выдает ошибку
     """
+    if type_and_number_cart == "":
+        raise ValueError("Строка не должна быть пустой")
     split_numbers_cart = type_and_number_cart.split()
     new_list = []
     name_and_number = []

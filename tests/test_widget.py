@@ -14,6 +14,12 @@ def test_mask_account_cart(type_and_number_cart, expected):
     assert mask_account_cart(type_and_number_cart) == expected
 
 
+def test_maks_account_cart_invalid_empty_line():
+    """ Ошибка на пустую строку """
+    with pytest.raises(ValueError):
+        mask_account_cart("")
+
+
 def test_mask_account_cart_invalid_size_number():
     """
     Проверка того, что функция выдаст ошибку,
