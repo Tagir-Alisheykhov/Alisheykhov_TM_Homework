@@ -11,25 +11,37 @@
 """
 
 
-def get_mask_card_number(cart_numb: str) -> str:
+def get_mask_card_number(cart_numb: str | int) -> str:
     """Возвращает номер карты с маской"""
+    if cart_numb == "" or cart_numb == " ":
+        raise ValueError("Нет данных")
+    cart_numb_str = str(cart_numb)
+    if not cart_numb_str.isdigit():
+        raise ValueError("Номер должен состоять только из цифр")
+    if len(cart_numb_str) != 16:
+        raise ValueError("Неверный номер карты")
     new_list = list()
-    new_list.append(cart_numb[0:4])
-    new_list.append(cart_numb[4:6] + "**")
+    new_list.append(cart_numb_str[0:4])
+    new_list.append(cart_numb_str[4:6] + "**")
     new_list.append("****")
-    new_list.append(cart_numb[12:])
+    new_list.append(cart_numb_str[12:])
     return " ".join(new_list)
 
 
 def get_mask_account(account_number: str) -> str:
     """Возвращает номер счета с маской"""
+    account_number_str = str(account_number)
+    if not account_number_str.isdigit():
+        raise ValueError("Номер должен состоять только из цифр")
+    if len(account_number_str) > 20 or len(account_number_str) < 20:
+        raise ValueError("Неверный номер счета")
     new_list = list()
-    new_list.append("**" + account_number[-4:])
+    new_list.append("**" + account_number_str[-4:])
     return " ".join(new_list)
 
 
 # Входные данные и их вывод для теста функций
-# client_account_number = 73654108430135874305
-# client_cart_number = 7000791119606361
-# print(get_mask_account(str(client_account_number)))
+# client_cart_number = 7000791119606365
+client_account_number = 73654108430135874305
 # print(get_mask_card_number(str(client_cart_number)))
+print(get_mask_account(str(client_account_number)))
