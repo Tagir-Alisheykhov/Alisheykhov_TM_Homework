@@ -72,7 +72,15 @@ def test_get_data_invalid_size_year_month_day_isdigit():
         get_data("4444-22-XXT02:26:18.671407")
 
 
-def test_get_invalid_presence_of_value_separators():
+def test_get_data_invalid_presence_of_value_separators():
     """ Проверяет наличие разделителей между годом, месяцем и днем """
     with pytest.raises(ValueError):
         get_data("44442211T02:26:18.671407")
+
+
+def test_get_data_invalid_empty_line():
+    with pytest.raises(ValueError):
+        get_data("")
+    with pytest.raises(ValueError):
+        get_data(" ")
+

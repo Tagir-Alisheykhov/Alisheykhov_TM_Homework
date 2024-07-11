@@ -11,7 +11,7 @@ Visa Platinum 8990922113665229
 Visa Gold 5999414228426353
 Счет 73654108430135874305 """
 
-date = "2018-08-11TO2:26:18.671407"
+date = "" "2018-08-11TO2:26:18.671407"
 
 
 def mask_account_cart(type_and_number_cart: str) -> str:
@@ -51,8 +51,11 @@ def get_data(raw_date: str) -> str:
     Функция, которая принимает данные о дате
     и прочее, выводя только дату
     """
-    stop_symbol_index = raw_date.index("T")
-    cut_raw_date = raw_date[:stop_symbol_index]
+    raw_date_str = str(raw_date)
+    if raw_date_str == "" or raw_date_str == " ":
+        raise ValueError("Строка не должна быть пустой")
+    stop_symbol_index = raw_date_str.index("T")
+    cut_raw_date = raw_date_str[:stop_symbol_index]
     count_separators_in_raw_date = 0
     for one_symbol in cut_raw_date:
         if one_symbol.isalpha():
@@ -71,20 +74,19 @@ def get_data(raw_date: str) -> str:
     if not len(date_clear_split) == 3:
         raise ValueError("Неполная дата")
     if not date_clear_split[0].isdigit():
-        raise ValueError("Год нужно указать числом")
+        raise ValueError("Год нужно указать числовыми символами")
     if not date_clear_split[1].isdigit():
-        raise ValueError("Месяц нужно указать числом")
+        raise ValueError("Месяц нужно указать числовыми символами")
     if not date_clear_split[2].isdigit():
-        raise ValueError("День нужно указать числом")
+        raise ValueError("День нужно указать числовыми символами")
     if len(date_clear_split[0]) != 4:
-        raise ValueError("Неправильно указан год")
+        raise ValueError("Год должен состоять из четырех цифр")
     if len(date_clear_split[1]) != 2:
-        raise ValueError("Неправильно указан месяц")
+        raise ValueError("Месяц должен состоять из двух цифр")
     if len(date_clear_split[2]) != 2:
-        raise ValueError("Неправильно указан день")
+        raise ValueError("День должен состоять из двух цифр")
     split_date = date_clear_split[::-1]
     final_result = ".".join(split_date)
-    print()
     return final_result
 
 
