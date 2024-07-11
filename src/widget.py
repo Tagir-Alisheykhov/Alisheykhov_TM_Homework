@@ -51,25 +51,43 @@ def get_data(raw_date: str) -> str:
     Функция, которая принимает данные о дате
     и прочее, выводя только дату
     """
-    index_symbol = raw_date.index("T")
-    cut_raw_date = raw_date[:index_symbol]
+    stop_symbol_index = raw_date.index("T")
+    cut_raw_date = raw_date[:stop_symbol_index]
+    count_separators_in_raw_date = 0
+    for one_symbol in cut_raw_date:
+        if one_symbol.isalpha():
+            count_separators_in_raw_date += 1
+            if count_separators_in_raw_date != 2:
+                raise ValueError("Добавьте разделители в дате")
     date_clear = ""
-    if len(cut_raw_date) != 10:
-        raise ValueError("Неверные данные")
-    else:
-        for one_symbol in raw_date:
-            if one_symbol == "T":
-                break
-            elif one_symbol.isdigit():
-                date_clear += one_symbol
-            elif not one_symbol.isdigit():
-                date_clear += " "
+    for one_symbol in cut_raw_date:
+        if one_symbol == "T":
+            break
+        elif one_symbol.isdigit():
+            date_clear += one_symbol
+        elif not one_symbol.isdigit():
+            date_clear += " "
     date_clear_split = date_clear.split()
+    if not len(date_clear_split) == 3:
+        raise ValueError("Неполная дата")
+    if not date_clear_split[0].isdigit():
+        raise ValueError("Год нужно указать числом")
+    if not date_clear_split[1].isdigit():
+        raise ValueError("Месяц нужно указать числом")
+    if not date_clear_split[2].isdigit():
+        raise ValueError("День нужно указать числом")
+    if len(date_clear_split[0]) != 4:
+        raise ValueError("Неправильно указан год")
+    if len(date_clear_split[1]) != 2:
+        raise ValueError("Неправильно указан месяц")
+    if len(date_clear_split[2]) != 2:
+        raise ValueError("Неправильно указан день")
     split_date = date_clear_split[::-1]
     final_result = ".".join(split_date)
+    print()
     return final_result
 
 
 if __name__ == "__main__":
-    print(mask_account_cart(cart_and_account_numbers))
+    # print(mask_account_cart(cart_and_account_numbers))
     print(get_data(date))

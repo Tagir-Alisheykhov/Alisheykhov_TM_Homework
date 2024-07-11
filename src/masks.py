@@ -42,6 +42,6 @@ def get_mask_account(account_number: str) -> str:
 
 # Входные данные и их вывод для теста функций
 # client_cart_number = 7000791119606365
-client_account_number = 73654108430135874305
-# print(get_mask_card_number(str(client_cart_number)))
-print(get_mask_account(str(client_account_number)))
+# client_account_number = 73654108430135874305
+# # print(get_mask_card_number(str(client_cart_number)))
+# print(get_mask_account(str(client_account_number)))
