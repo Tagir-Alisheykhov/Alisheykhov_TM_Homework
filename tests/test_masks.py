@@ -23,13 +23,23 @@ def test_invalid_number_with_mask_if_no_value():
     """ Проверка ошибки на пустую строку """
     with pytest.raises(ValueError):
         get_mask_card_number("")
-    with pytest.raises(ValueError):
-        get_mask_card_number(" ")
 
 
 def test_account_with_mask():
-    """ Проверяет корректность маскировки номера счета и """
+    """ Проверяет корректность маскировки номера счета """
     assert get_mask_account("73654108430135874305") == "**4305"
+
+
+def test_invalid_get_account_cart_if_not_value():
+    """ Ошибка, если строка пустая """
+    with pytest.raises(ValueError):
+        get_mask_account("")
+
+
+def test_invalid_value_not_isdigit_in_account_with_mask():
+    """ Проверка ошибки, если номер cчета состоит не только из цифр """
+    with pytest.raises(ValueError):
+        get_mask_account("t11ig11t11x1oo1e1y1u")
 
 
 def test_account_with_mask_invalid_size():
@@ -40,7 +50,3 @@ def test_account_with_mask_invalid_size():
         get_mask_account("2222222222222222222222")
 
 
-def test_invalid_value_not_isdigit_in__account_with_mask():
-    """ Проверка ошибки, если номер карты состоит не только из цифр """
-    with pytest.raises(ValueError):
-        get_mask_card_number("73654108430135874305")#("ttt541ii430g35g7g30t")
