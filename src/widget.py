@@ -11,7 +11,7 @@ Visa Platinum 8990922113665229
 Visa Gold 5999414228426353
 Счет 73654108430135874305 """
 
-date = "   " #"2018-08-11TO2:26:18.671407"
+date = "2018-08-11TO2:26:18.671407"
 
 
 def mask_account_cart(type_and_number_cart: str) -> str:
@@ -93,5 +93,5 @@ def get_data(raw_date: str) -> str:
 
 
 if __name__ == "__main__":
-    # print(mask_account_cart(cart_and_account_numbers))
+    print(mask_account_cart(cart_and_account_numbers))
     print(get_data(date))
