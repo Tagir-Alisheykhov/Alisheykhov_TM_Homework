@@ -5,7 +5,7 @@ from src.widget import mask_account_cart, get_data
 @pytest.mark.parametrize("type_and_number_cart, expected",
                          [("Maestro 1596837868705199", "Maestro 1596 83** **** 5199"),
                           ("Счет 64686473678894779589", "Счет **9589")])
-def test_mask_account_cart(type_and_number_cart, expected):
+def test_mask_account_cart(type_and_number_cart: str, expected: str):
     """
     Проверка универсальности функции - корректно распознает и
     применяет нужный тип маскировки в зависимости от типа входных данных
