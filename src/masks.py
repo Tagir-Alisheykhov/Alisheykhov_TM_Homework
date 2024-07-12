@@ -12,7 +12,7 @@
 
 
 def get_mask_card_number(cart_numb: str | int) -> str:
-    """ Возвращает номер карты с маской """
+    """Возвращает номер карты с маской"""
     cart_numb_str = str(cart_numb)
     if cart_numb == "":
         raise ValueError("Нет данных")
@@ -29,7 +29,7 @@ def get_mask_card_number(cart_numb: str | int) -> str:
 
 
 def get_mask_account(account_number: str) -> str:
-    """ Возвращает номер счета с маской """
+    """Возвращает номер счета с маской"""
     account_number_str = str(account_number)
     if account_number == "":
         raise ValueError("Нет данных")
