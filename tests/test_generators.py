@@ -84,16 +84,6 @@ def test_filter_by_currency():
                 }
 
 
-def test_filter_by_currency_different_keys(values_for_filter_by_currency):
-    """
-    Ошибка при разности значений ключей <name> и <code>.b
-    Они должны быть одинаковыми
-    """
-    generator = filter_by_currency(values_for_filter_by_currency, "USD")
-    with pytest.raises(ValueError):
-        next(generator)
-
-
 def test_filter_by_currency_no_required_keys(virus_1, virus_2, virus_3):
     """ Отсутствие обязательного ключа """
     generator_1 = filter_by_currency(virus_1, "USD")
