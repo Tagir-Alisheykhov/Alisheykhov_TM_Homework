@@ -35,24 +35,27 @@ def filter_by_currency(transacts, currency="USD"):
 
 def transaction_descriptions(transact):
     for _dict in transact:
-        if "description" not in _dict["description"]:
+        if "description" in _dict:
+            way_to_the_key = _dict["description"]
+            yield way_to_the_key
+        else:
             raise KeyError("Ключ не найден")
-        way_to_the_key = _dict["description"]
-        yield way_to_the_key
 
 
 if __name__ == "__main__":
+    a = filter_by_currency(transactions, "USD")
+    print(next(a))
 
     usd_transactions = filter_by_currency(transactions, "USD")
     try:
-        for _ in range(0):
+        for _ in range(1):
             print(next(usd_transactions))
     except StopIteration:
         print(f":----: Вызываемый генератор '{filter_by_currency}' пуст :----:")
 
     descriptions = transaction_descriptions(transactions)
     try:
-        for _ in range(5):
+        for _ in range(1):
             print(next(descriptions))
     except StopIteration:
         print(f":----: Вызываемый генератор '{transaction_descriptions}' пуст :----:")

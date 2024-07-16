@@ -60,7 +60,7 @@ def virus_4():
     value = [{
           "id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572",
           "operationAmount": {"amount": "9824.07", "currency": {"name": "USD", "code": "USD"}},
-          "description<<<VIRUS>>>": "Перевод организации",
+          "description<<<<<<<<<<<--VIRUS-->>>>>>>>>>>": "Перевод организации",
           "from": "Счет 75106830613657916952",
           "to": "Счет 11776614605963066702"}]
     return value
@@ -107,14 +107,22 @@ def test_filter_by_currency_no_required_keys(virus_1, virus_2, virus_3):
         next(generator_3)
 
 
-# ВОЗМОЭЖНЫЕ ОШИБКИ
-# 1- Не существует ключа
-# 2- Пустые строки
-# ОШИБКА СРАБАТЫВАЕТ С ВИРУСОМ И БЕЗ НЕГО. ЗАГЛЯНУТЬ В ФУНКЦИЮ. ПРОБЛЕМА ТАМ.
+def test_empty_filter_by_currency():
+    """ Ошибка на пустой список """
+    generator = filter_by_currency([], "USD")
+    with pytest.raises(StopIteration):
+        next(generator)
 
 
 def test_transaction_descriptions(virus_4):
     """ Ошибка при отсутствии обязательного ключа <description> """
     generator = transaction_descriptions(virus_4)
     with pytest.raises(KeyError):
+        next(generator)
+
+
+def test_empty_transaction_descriptions():
+    """ Ошибка на пустой список """
+    generator = transaction_descriptions([])
+    with pytest.raises(StopIteration):
         next(generator)
