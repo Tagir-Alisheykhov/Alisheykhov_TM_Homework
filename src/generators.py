@@ -104,22 +104,41 @@ def transaction_descriptions(transact):
             raise KeyError("Ключ не найден")
 
 
-def card_number_generator():
-    pass
+def card_number_generator(start, end):
+    cart_inx = 1
+    while start < end:
+        generated_numb = str(cart_inx)
+        while len(generated_numb) < 16:
+            g = "0" + generated_numb
+        new_list = list()
+        new_list.append(list(generated_numb[:4]))
+        new_list.append(list(generated_numb[4:8]))
+        new_list.append(list(generated_numb[8:12]))
+        new_list.append(list(generated_numb[12:]))
+        filtered_numb = ["".join(i) for i in new_list]
+        result = " ".join(filtered_numb)
+        yield result
+        cart_inx += 1
+        start += 1
 
 
 if __name__ == "__main__":
-
+    # ЗАПУСК-1 filter_by_currency
     usd_transactions = filter_by_currency(transactions, "USD")
     try:
-        for _ in range(5):
+        for _ in range(0):
             print(next(usd_transactions))
     except StopIteration:
-        print(f":----: Вызываемый генератор '{filter_by_currency}' пуст :----:")
+        print(f":----: Вызываемый генератор '{filter_by_currency}'- пуст :----:")
 
+    # ЗАПУСК-2 transaction_descriptions
     descriptions = transaction_descriptions(transactions)
     try:
-        for _ in range(6):
+        for _ in range(0):
             print(next(descriptions))
     except StopIteration:
-        print(f":----: Вызываемый генератор '{transaction_descriptions}' пуст :----:")
+        print(f":----: Вызываемый генератор '{transaction_descriptions}'- пуст :----:")
+
+    # ЗАПУСК-3 card_number_generator
+    for cart_number in card_number_generator(1, 5):
+        print(cart_number)

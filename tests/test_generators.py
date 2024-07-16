@@ -116,3 +116,6 @@ def test_empty_transaction_descriptions():
     generator = transaction_descriptions([])
     with pytest.raises(StopIteration):
         next(generator)
+
+
+def test
