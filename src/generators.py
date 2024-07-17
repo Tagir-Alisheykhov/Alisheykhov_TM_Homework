@@ -141,5 +141,6 @@ if __name__ == "__main__":
         print(f"> Вызываемый генератор '{transaction_descriptions}'- пуст <")
 
     # -------- ГЕНЕРАТОР-3 card_number_generator --------
-    for cart_number in card_number_generator(9999999999999950, 9999999999999999):
+    for cart_number in card_number_generator(9999999999999995, 9999999999999999):
         print(cart_number)
+-

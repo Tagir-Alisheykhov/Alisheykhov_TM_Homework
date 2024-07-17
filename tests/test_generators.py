@@ -121,8 +121,24 @@ def test_empty_transaction_descriptions():
         next(generator)
 
 
-@pytest.mark.parametrize("p1, p2, p3", [(1, 2, "0000 0000 0000 0001"),
-                                        (1, 3, "0000 0000 0000 0002")])
-def test_card_number_generator(p1, p2, p3):
-    generator = card_number_generator(1, 2)
-    assert next(generator) == p3
+def test_card_number_generator():
+    """ Тест на корректность работы функции """
+    generator = card_number_generator(1, 5)
+    assert next(generator) == "0000 0000 0000 0001"
+    assert next(generator) == "0000 0000 0000 0002"
+    assert next(generator) == "0000 0000 0000 0003"
+    assert next(generator) == "0000 0000 0000 0004"
+    assert next(generator) == "0000 0000 0000 0005"
+
+
+def test_range_check_card_number_generator():
+    """ Проверка корректного вывода заданного диапазона """
+    generator = card_number_generator(
+        9999999999999995,
+        9999999999999999)
+    assert next(generator) == "9999 9999 9999 9995"
+    assert next(generator) == "9999 9999 9999 9996"
+    assert next(generator) == "9999 9999 9999 9997"
+    assert next(generator) == "9999 9999 9999 9998"
+    assert next(generator) == "9999 9999 9999 9999"
+
