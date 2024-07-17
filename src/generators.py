@@ -1,3 +1,5 @@
+from typing import Iterator
+
 transactions = (
     [
         {
@@ -79,7 +81,8 @@ transactions = (
 )
 
 
-def filter_by_currency(transacts, currency="USD"):
+def filter_by_currency(transacts: list[dict], currency: str = "USD") \
+                           -> Iterator[dict[str | str, dict]]:
     """
     Функция-генератор. Поочередно выдает транзакции,
     где валюта операции соответствует заданной (например, USD)
@@ -95,16 +98,17 @@ def filter_by_currency(transacts, currency="USD"):
             yield _dict
 
 
-def transaction_descriptions(transact):
+def transaction_descriptions(transact: list[dict]) -> Iterator[str]:
     """ Генератор возвращает описание каждой операции по очереди """
     for _dict in transact:
         if "description" in _dict:
             way_to_the_key = _dict["description"]
             yield way_to_the_key
-        raise KeyError("Ключ не найден")
+        else:
+            raise KeyError("Ключ не найден")
 
 
-def card_number_generator(start, end):
+def card_number_generator(start: int, end: int) -> Iterator[str]:
     """
     Генератор выдает номера банковских карт в определенном формате.
     Генератор может сгенерировать номера карт в
@@ -132,18 +136,18 @@ if __name__ == "__main__":
     # -------- ГЕНЕРАТОР-1 filter_by_currency --------
     usd_transactions = filter_by_currency(transactions, "USD")
     try:
-        for _ in range(0):
+        for _ in range(5):
             print(next(usd_transactions))
     except StopIteration:
-        print(f"> Вызываемый генератор '{filter_by_currency}'- пуст <")
+        print(f"> Вызываемый генератор '{filter_by_currency}'- пуст <\n")
 
     # -------- ГЕНЕРАТОР-2 transaction_descriptions --------
     descriptions = transaction_descriptions(transactions)
     try:
-        for _ in range(0):
+        for _ in range(6):
             print(next(descriptions))
     except StopIteration:
-        print(f"> Вызываемый генератор '{transaction_descriptions}'- пуст <")
+        print(f"> Вызываемый генератор '{transaction_descriptions}'- пуст <\n")
 
     # -------- ГЕНЕРАТОР-3 card_number_generator --------
     for cart_number in card_number_generator(9999999999999995, 9999999999999999):
