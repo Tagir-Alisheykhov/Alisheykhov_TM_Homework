@@ -1,4 +1,4 @@
-from src.generators import filter_by_currency, transactions, transaction_descriptions
+from src.generators import filter_by_currency, transactions, transaction_descriptions, card_number_generator
 
 import pytest
 
@@ -104,6 +104,9 @@ def test_empty_filter_by_currency():
         next(generator)
 
 
+# МОЖНО ДОБАВИТЬ ТЕСТ НА КОРРЕКТНОСТЬ РАБОТЫ
+
+
 def test_transaction_descriptions(virus_4):
     """ Ошибка при отсутствии обязательного ключа <description> """
     generator = transaction_descriptions(virus_4)
@@ -118,4 +121,8 @@ def test_empty_transaction_descriptions():
         next(generator)
 
 
-def test
+@pytest.mark.parametrize("p1, p2, p3", [(1, 2, "0000 0000 0000 0001"),
+                                        (1, 3, "0000 0000 0000 0002")])
+def test_card_number_generator(p1, p2, p3):
+    generator = card_number_generator(1, 2)
+    assert next(generator) == p3

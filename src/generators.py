@@ -105,11 +105,12 @@ def transaction_descriptions(transact):
 
 
 def card_number_generator(start, end):
-    cart_inx = 1
-    while start < end:
-        generated_numb = str(cart_inx)
+    start_inx = start
+    cart_inx = 1                # НЕ РАБОТАЮТ ДИАПАЗОНЫ
+    while start_inx <= end:          # <--- ОШИБКА ГДЕ-ТО ЗДЕСЬ (обратить внимание на логику)
+        generated_numb = str(start_inx)
         while len(generated_numb) < 16:
-            g = "0" + generated_numb
+            generated_numb = "0" + generated_numb   # <--- ИЛИ ЗДЕСЬ (обратить внимание на логику)
         new_list = list()
         new_list.append(list(generated_numb[:4]))
         new_list.append(list(generated_numb[4:8]))
@@ -119,26 +120,26 @@ def card_number_generator(start, end):
         result = " ".join(filtered_numb)
         yield result
         cart_inx += 1
-        start += 1
+        start_inx += 1
 
 
 if __name__ == "__main__":
-    # ЗАПУСК-1 filter_by_currency
+    # -------- ГЕНЕРАТОР-1 filter_by_currency --------
     usd_transactions = filter_by_currency(transactions, "USD")
     try:
         for _ in range(0):
             print(next(usd_transactions))
     except StopIteration:
-        print(f":----: Вызываемый генератор '{filter_by_currency}'- пуст :----:")
+        print(f"> Вызываемый генератор '{filter_by_currency}'- пуст <")
 
-    # ЗАПУСК-2 transaction_descriptions
+    # -------- ГЕНЕРАТОР-2 transaction_descriptions --------
     descriptions = transaction_descriptions(transactions)
     try:
         for _ in range(0):
             print(next(descriptions))
     except StopIteration:
-        print(f":----: Вызываемый генератор '{transaction_descriptions}'- пуст :----:")
+        print(f"> Вызываемый генератор '{transaction_descriptions}'- пуст <")
 
-    # ЗАПУСК-3 card_number_generator
-    for cart_number in card_number_generator(1, 5):
+    # -------- ГЕНЕРАТОР-3 card_number_generator --------
+    for cart_number in card_number_generator(9999999999999950, 9999999999999999):
         print(cart_number)
