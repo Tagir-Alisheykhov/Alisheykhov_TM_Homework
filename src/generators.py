@@ -88,7 +88,7 @@ def filter_by_currency(transacts, currency="USD"):
         if ("operationAmount" not in _dict
             or "currency" not in _dict["operationAmount"]
                 or "name" not in _dict["operationAmount"]["currency"]
-               and "code" not in _dict["operationAmount"]["currency"]):
+                or "code" not in _dict["operationAmount"]["currency"]):
             raise KeyError("Ключ не найден")
         transacts_current_code = _dict["operationAmount"]["currency"]["code"]
         if transacts_current_code == currency:
@@ -96,21 +96,26 @@ def filter_by_currency(transacts, currency="USD"):
 
 
 def transaction_descriptions(transact):
+    """ Генератор возвращает описание каждой операции по очереди """
     for _dict in transact:
         if "description" in _dict:
             way_to_the_key = _dict["description"]
             yield way_to_the_key
-        else:
-            raise KeyError("Ключ не найден")
+        raise KeyError("Ключ не найден")
 
 
 def card_number_generator(start, end):
+    """
+    Генератор выдает номера банковских карт в определенном формате.
+    Генератор может сгенерировать номера карт в
+    заданном диапазоне от 0000 0000 0000 0001 до 9999 9999 9999 9999.
+    """
     start_inx = start
-    cart_inx = 1                # НЕ РАБОТАЮТ ДИАПАЗОНЫ
-    while start_inx <= end:          # <--- ОШИБКА ГДЕ-ТО ЗДЕСЬ (обратить внимание на логику)
+    cart_inx = 1
+    while start_inx <= end:
         generated_numb = str(start_inx)
         while len(generated_numb) < 16:
-            generated_numb = "0" + generated_numb   # <--- ИЛИ ЗДЕСЬ (обратить внимание на логику)
+            generated_numb = "0" + generated_numb
         new_list = list()
         new_list.append(list(generated_numb[:4]))
         new_list.append(list(generated_numb[4:8]))
@@ -143,4 +148,3 @@ if __name__ == "__main__":
     # -------- ГЕНЕРАТОР-3 card_number_generator --------
     for cart_number in card_number_generator(9999999999999995, 9999999999999999):
         print(cart_number)
--

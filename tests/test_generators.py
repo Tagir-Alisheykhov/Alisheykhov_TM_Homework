@@ -1,5 +1,4 @@
 from src.generators import filter_by_currency, transactions, transaction_descriptions, card_number_generator
-
 import pytest
 
 
@@ -104,9 +103,6 @@ def test_empty_filter_by_currency():
         next(generator)
 
 
-# МОЖНО ДОБАВИТЬ ТЕСТ НА КОРРЕКТНОСТЬ РАБОТЫ
-
-
 def test_transaction_descriptions(virus_4):
     """ Ошибка при отсутствии обязательного ключа <description> """
     generator = transaction_descriptions(virus_4)
@@ -123,7 +119,9 @@ def test_empty_transaction_descriptions():
 
 def test_card_number_generator():
     """ Тест на корректность работы функции """
-    generator = card_number_generator(1, 5)
+    generator = card_number_generator(
+        1,
+        5)
     assert next(generator) == "0000 0000 0000 0001"
     assert next(generator) == "0000 0000 0000 0002"
     assert next(generator) == "0000 0000 0000 0003"
@@ -141,4 +139,3 @@ def test_range_check_card_number_generator():
     assert next(generator) == "9999 9999 9999 9997"
     assert next(generator) == "9999 9999 9999 9998"
     assert next(generator) == "9999 9999 9999 9999"
-
