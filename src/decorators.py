@@ -7,25 +7,21 @@ base_path = ("C:/Users/Lenovo/SkyProLearn2/SkyProject_2/Homework_AlisheykhovTM"
              "logs/")
 
 
-def log(filename: str = None) -> Any:
+def log(filename: str) -> Any:
     """Логирование данных"""
     def real_decorator(func):
         @wraps(func)
-        def wrapper(*args: Any, **kwargs: Any):
+        def wrapper(*args, **kwargs):
             res = func(*args, **kwargs)
             try:
                 print("Декоратор успешно запущен.")
                 if filename == "":
                     raise SyntaxError("Строка аргумента не должна быть пустой")
-                elif not filename:
-                    raise ValueError("Нет обязательного аргумента")
                 elif filename:
                     with open(os.path.join(base_path + filename), "a", encoding="UTF-8") as file:
                         file.write(f"/{func.__name__} - Запись файла прошла успешно\n")
             except SyntaxError as err_1:
                 print(f"{func.__name__} error: {err_1}. inputs: {args}, {kwargs}")
-            except ValueError as err_2:
-                print(f"{func.__name__} error: {err_2}. inputs: {args}, {kwargs}")
             print("Конец работы декоратора.")
             return res
         return wrapper
