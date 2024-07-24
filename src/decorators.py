@@ -3,8 +3,8 @@ from functools import wraps
 from typing import Any
 
 base_path = ("C:/Users/Lenovo/SkyProLearn2/SkyProject_2/Homework_AlisheykhovTM"
-             "/Homework_Alisheykhov_TM/"
-             "logs/")
+             "/Homework_Alisheykhov_TM"
+             "/logs/")
 
 
 def log(filename: str) -> Any:
