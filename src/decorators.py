@@ -2,17 +2,15 @@ import os
 from functools import wraps
 from typing import Any
 
-base_path = ("C:/Users/Lenovo/SkyProLearn2/SkyProject_2/Homework_AlisheykhovTM"
-             "/Homework_Alisheykhov_TM"
-             "/logs/")
+base_path = "C:/Users/Lenovo/SkyProLearn2/SkyProject_2/Homework_AlisheykhovTM/Homework_Alisheykhov_TM/logs/"
 
 
 def log(filename: str) -> Any:
     """Логирование данных"""
-    def real_decorator(func):
+    def real_decorator(func: Any) -> Any:
         @wraps(func)
-        def wrapper(*args, **kwargs):
-            res = func(*args, **kwargs)
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
+            result = func(*args, **kwargs)
             try:
                 print("Декоратор успешно запущен.")
                 if filename == "":
@@ -23,8 +21,10 @@ def log(filename: str) -> Any:
             except SyntaxError as err_1:
                 print(f"{func.__name__} error: {err_1}. inputs: {args}, {kwargs}")
             print("Конец работы декоратора.")
-            return res
+            return result
+
         return wrapper
+
     return real_decorator
 
 
