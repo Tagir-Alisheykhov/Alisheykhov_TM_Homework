@@ -22,9 +22,7 @@ def log(filename: str) -> Any:
                 print(f"{func.__name__} error: {err_1}. inputs: {args}, {kwargs}")
             print("Конец работы декоратора.")
             return result
-
         return wrapper
-
     return real_decorator
 
 
