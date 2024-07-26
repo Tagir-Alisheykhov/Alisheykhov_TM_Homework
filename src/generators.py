@@ -49,7 +49,7 @@ transactions = [
 ]
 
 
-def filter_by_currency(transacts: list[dict], currency: str = "USD") -> Iterator[dict[str | str, dict]]:
+def filter_by_currency(transacts: list[dict], currency: str = "USD") -> Iterator[dict[str | str, int, dict]]:
     """
     Функция-генератор. Поочередно выдает транзакции,
     где валюта операции соответствует заданной (например, USD)
