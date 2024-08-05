@@ -1,13 +1,13 @@
+import os
 import json
 import requests
+from dotenv import load_dotenv
 
-file_json = "C:/Users/Lenovo/practicalWork6/data4(homework).json"
-# my_url = f"https://api.apilayer.com/exchangerates_data/convert?to={to}&from={received_currency}&amount={nominal}"
+load_dotenv()
+API_KEY = os.getenv('KEY_API')
 
-
-# headers2 = {
-#     "apikey": "kP3oX8JfPcEPOOGTP6UJVjgnOTIPcyWo"
-# }
+file_json = ("C:/Users/Lenovo/SkyProLearn2/SkyProject_2/Homework_AlisheykhovTM/"
+             "Homework_Alisheykhov_TM/data/operations.json")
 
 
 def processing_json_file(filename) -> list[dict]:
@@ -17,7 +17,7 @@ def processing_json_file(filename) -> list[dict]:
         return transactions
 
 
-def sum_transactions(transactions_data: list[dict]) -> float:
+def sum_transactions(transactions_data: list[dict], api_key: str = None) -> float:
     """Возвращает сумму всех транзакций в рублях"""
     list_amount = []
     received_currency = 'USD'
@@ -35,17 +35,17 @@ def sum_transactions(transactions_data: list[dict]) -> float:
             list_amount.append(amount_current_transact)
             if currency_current_transact != received_currency:
                 received_currency = currency_current_transact
-    API_KEY = {
-        "apikey": "CfWWBVZmMa73y0lNQiRLY9jjVH2tROBG"
+    headers = {
+        "apikey": API_KEY
     }
-    my_url = f"https://api.apilayer.com/exchangerates_data/convert?to={to}&from={received_currency}&amount={nominal}"
-    response = requests.get(my_url, headers=API_KEY)
+    url = (f"https://api.apilayer.com/exchangerates_data/convert?"
+           f"to={to}&from={received_currency}&amount={nominal}")
+    response = requests.get(url, headers=headers)
     rate_one_currency = response.json()['result']
     for amount_current_transact in list_amount:
         finish_amount += amount_current_transact * rate_one_currency
     finish_result = round(finish_amount, 2)
     return finish_result
-    # out = 201822128.19
 
 
 if __name__ == '__main__':
