@@ -9,29 +9,25 @@ file_json = ("C:/Users/Lenovo/SkyProLearn2/SkyProject_2/Homework_AlisheykhovTM/"
              "Homework_Alisheykhov_TM/data/operations.json")
 
 
-def processing_json_file(filename) -> list[dict]:
+def processing_json_file(filename: str) -> list[dict]:
     """Открытие j-son файла с транзакциями"""
-    with open(filename, encoding="UTF-8") as transactions_file:
+    with (open(filename, encoding="UTF-8") as transactions_file):
         transactions = json.load(transactions_file)
-        try:
-            if transactions == [None]:
-                raise ValueError("Файл c транзакциями пуст")
-            for transact in transactions:
-                empty_transact = 0
-                currency_current_transact = transact['operationAmount']['currency']['code']
-                if transact == {}:
-                    print(f"Найдена пустая транзакция. Количество: {empty_transact}")
-                    continue
-                elif len(str(currency_current_transact)) != 3 and not isinstance(currency_current_transact, str):
-                    raise ValueError("Неверный трехзначный код валюты")
-                elif 'id' not in transact or 'state' not in transact or 'operationAmount' not in transact:
-                    raise ValueError("Отсутствует обязательный ключ")
-                elif 'amount' not in transact or 'currency' not in transact:
-                    raise ValueError("Отсутствует обязательный под-ключ ключа 'operationAmount'")
-                elif 'name' not in transact or 'code' not in transact:
-                    raise ValueError("Отсутствует обязательный под-ключ ключа 'currency'")
-        except ValueError as error:
-            print(f"'ERROR': {error}")
+        currency_current_transact = ""
+        if transactions == "":
+            raise ValueError("Передан пустой файл")
+        for transact in transactions:
+            if ('id' not in transact and 'state' not in transact
+                    and 'operationAmount' not in transact and 'description' not in transact):
+                continue
+            else:
+                if ('id' not in transact or 'state' not in transact
+                        or 'operationAmount' not in transact or 'description' not in transact):
+                    raise KeyError("Отсутствует обязательный ключ в транзакции")
+                else:
+                    if (len(str(transact['operationAmount']['currency']['code'])) != 3
+                            or not isinstance(transact['operationAmount']['currency']['code'], str)):
+                        raise ValueError("Неверный трехзначный код валюты в транзакции")
         return transactions
 
 
@@ -57,10 +53,7 @@ def sum_transactions(transactions_data: list[dict]) -> float:
     conversion = currency_conversion(received_currency)
     for amount_one_transact in list_amount:
         finish_amount += (conversion * amount_one_transact)
-
     return round(finish_amount, 2)
-# 2627938.96 - only rubles
-# 203973571.68 - all transacts
 
 
 if __name__ == '__main__':

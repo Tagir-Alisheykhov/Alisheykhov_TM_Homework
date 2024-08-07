@@ -10,33 +10,13 @@ headers = {
 }
 
 
-def currency_conversion(currency: str = 'USD', nominal: int = 1) -> list[dict]:
+def currency_conversion(currency: str = 'USD', nominal: int = 1) -> float:
     """ Конвертация входной валюты в рубль """
     response = requests.get((f"https://api.apilayer.com/exchangerates_data/convert?"
                              f"to=RUB&from={currency}&amount={nominal}"), headers=headers)
-    if response.status_code == 200:
-        return response.json()['result']
+    status_code = response.status_code
+    if status_code == 200:
+        conversion_rate = response.json()['result']
+        return conversion_rate
     else:
-        raise ValueError(f"Не успешный запрос: {response.status_code}")
-
-
-
-
-
-#        видно выходит список, но почему нет итерации?
-
-#        можно найти индекс по примеру для того чтобы обработать ошибку:
-#               return repo['result']
-#            ~~~~^^^^^^^^^^
-# TypeError: string indices must be integers, not 'str'
-#
-#
-#
-
-
-# success
-# query
-# info
-# date
-# result
-# {'success': True, 'query': {'from': 'USD', 'to': 'RUB', 'amount': 1}, 'info': {'timestamp': 1722953164, 'rate': 85.547234}, 'date': '2024-08-06', 'result': 85.547234}
+        raise ValueError("Неуспешный код-статус")
