@@ -18,5 +18,5 @@ def currency_conversion(currency: str = 'USD', nominal: int = 1) -> float:
     if status_code == 200:
         conversion_rate = response.json()['result']
         return conversion_rate
-    else:
-        raise ValueError("Неуспешный код-статус")
+    # else:
+    #     raise ValueError("Неуспешный код-статус")

@@ -1,12 +1,12 @@
 import os
 import json
+from os import path
 from dotenv import load_dotenv
 from src.external_api import currency_conversion
 
 load_dotenv()
 API_KEY = os.getenv('KEY_API')
-file_json = ("C:/Users/Lenovo/SkyProLearn2/SkyProject_2/Homework_AlisheykhovTM/"
-             "Homework_Alisheykhov_TM/data/operations.json")
+file_json = path.join(path.dirname(path.dirname(__file__)), "data/operations.json")
 
 
 def processing_json_file(filename: str) -> list[dict]:
@@ -24,10 +24,10 @@ def processing_json_file(filename: str) -> list[dict]:
                 if ('id' not in transact or 'state' not in transact
                         or 'operationAmount' not in transact or 'description' not in transact):
                     raise KeyError("Отсутствует обязательный ключ в транзакции")
-                else:
-                    if (len(str(transact['operationAmount']['currency']['code'])) != 3
-                            or not isinstance(transact['operationAmount']['currency']['code'], str)):
-                        raise ValueError("Неверный трехзначный код валюты в транзакции")
+                # else:
+                elif (len(str(transact['operationAmount']['currency']['code'])) != 3
+                        or not isinstance(transact['operationAmount']['currency']['code'], str)):
+                    raise ValueError("Неверный трехзначный код валюты в транзакции")
         return transactions
 
 
