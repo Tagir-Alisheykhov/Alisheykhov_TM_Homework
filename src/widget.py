@@ -1,5 +1,4 @@
-from src.masks import get_mask_card_number, get_mask_account
-
+from src.masks import get_mask_account, get_mask_card_number
 
 # Примеры входных данных:
 cart_and_account_numbers = """ Maestro 1596837868705199
@@ -11,14 +10,17 @@ Visa Platinum 8990922113665229
 Visa Gold 5999414228426353
 Счет 73654108430135874305 """
 
-date = "2018-07-11T02:26:18.671407"
+date = "2018-08-11TO2:26:18.671407"
 
 
 def mask_account_cart(type_and_number_cart: str) -> str:
     """
     Функция принимает тип и номер карты
-    или номер счета выводя их замаскированными
+    или номер счета выводя их замаскированными. Если номер карты введен неверно,
+    то программа выдает ошибку
     """
+    if type_and_number_cart == "":
+        raise ValueError("Строка не должна быть пустой")
     split_numbers_cart = type_and_number_cart.split()
     new_list = []
     name_and_number = []
@@ -36,13 +38,13 @@ def mask_account_cart(type_and_number_cart: str) -> str:
                 name_and_number.append(masks_numb_account)
                 new_list.append(name_and_number)
                 name_and_number = list()
-        else:
-            continue
+            else:
+                raise ValueError("Неправильное количество цифр в номере")
     ready_data = ""
     for values_cart in new_list:
         translate_into_a_line = " ".join(values_cart)
         ready_data += translate_into_a_line + "\n"
-    return ready_data
+    return ready_data[:-1]
 
 
 def get_data(raw_date: str) -> str:
@@ -50,14 +52,40 @@ def get_data(raw_date: str) -> str:
     Функция, которая принимает данные о дате
     и прочее, выводя только дату
     """
-    slice_date = raw_date[:10]
+    raw_date_str = str(raw_date)
+    if raw_date_str == "":
+        raise ValueError("Строка не должна быть пустой")
+    stop_symbol_index = raw_date_str.index("T")
+    cut_raw_date = raw_date_str[:stop_symbol_index]
+    count_separators_in_raw_date = 0
+    for one_symbol in cut_raw_date:
+        if one_symbol.isalpha():
+            count_separators_in_raw_date += 1
+            if count_separators_in_raw_date != 2:
+                raise ValueError("Добавьте разделители в дате")
     date_clear = ""
-    for one_symbol in range(len(slice_date)):
-        if slice_date[one_symbol].isdigit():
-            date_clear += slice_date[one_symbol]
-        else:
+    for one_symbol in cut_raw_date:
+        if one_symbol == "T":
+            break
+        elif one_symbol.isdigit():
+            date_clear += one_symbol
+        elif not one_symbol.isdigit():
             date_clear += " "
     date_clear_split = date_clear.split()
+    if not len(date_clear_split) == 3:
+        raise ValueError("Неполная дата")
+    if not date_clear_split[0].isdigit():
+        raise ValueError("Год нужно указать числовыми символами")
+    if not date_clear_split[1].isdigit():
+        raise ValueError("Месяц нужно указать числовыми символами")
+    if not date_clear_split[2].isdigit():
+        raise ValueError("День нужно указать числовыми символами")
+    if len(date_clear_split[0]) != 4:
+        raise ValueError("Год должен состоять из четырех цифр")
+    if len(date_clear_split[1]) != 2:
+        raise ValueError("Месяц должен состоять из двух цифр")
+    if len(date_clear_split[2]) != 2:
+        raise ValueError("День должен состоять из двух цифр")
     split_date = date_clear_split[::-1]
     final_result = ".".join(split_date)
     return final_result
