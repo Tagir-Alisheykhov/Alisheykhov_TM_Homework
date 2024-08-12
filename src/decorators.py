@@ -1,8 +1,9 @@
 import os
+from os import path
 from functools import wraps
 from typing import Any
 
-base_path = "C:/Users/Lenovo/SkyProLearn2/SkyProject_2/Homework_AlisheykhovTM/Homework_Alisheykhov_TM/logs/"
+base_path = path.join(path.dirname(path.dirname(__file__)), "logs/")
 
 
 def log(filename: str) -> Any:
@@ -22,9 +23,7 @@ def log(filename: str) -> Any:
                 print(f"{func.__name__} error: {err_1}. inputs: {args}, {kwargs}")
             print("Конец работы декоратора.")
             return result
-
         return wrapper
-
     return real_decorator
 
 
