@@ -56,7 +56,7 @@ def processing_json_file(filename: str) -> Any:
                 logger.info("Данные успешно прошли проверку")
         return transactions
     except Exception as err:
-        logger.warning(f"Произошла ошибка {err}", exc_info=True)
+        logger.warning(f"Произошла ошибка: {err}", exc_info=True)
 
 
 def sum_transactions(transactions_data: list[dict]) -> float:
@@ -91,7 +91,7 @@ def sum_transactions(transactions_data: list[dict]) -> float:
         logger.info("Конец работы приложения")
         return round(finish_amount, 2)
     except Exception as err:
-        logger.warning(f"Произошла ошибка {err}", exc_info=True)
+        logger.warning(f"Произошла ошибка: {err}", exc_info=True)
 
 
 if __name__ == "__main__":
