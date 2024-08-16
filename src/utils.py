@@ -13,17 +13,21 @@ API_KEY = os.getenv("KEY_API")
 file_json = path.join(path.dirname(path.dirname(__file__)), "data/operations.json")
 path_to_logs = path.join(path.dirname(path.dirname(__file__)), "logs/utils.log")
 
-logging.basicConfig(level=logging.DEBUG,
-                    format="%(asctime)s - %(filename)s - %(levelname)s - %(message)s", datefmt="%H:%M:%S",
-                    filename=path_to_logs,
-                    filemode="w", encoding="UTF-8")
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(filename)s - %(levelname)s - %(message)s",
+    datefmt="%H:%M:%S",
+    filename=path_to_logs,
+    filemode="w",
+    encoding="UTF-8",
+)
 logger = logging.getLogger(__name__)
+logger.info("Запуск программы конвертации валюты")
 
 
 def processing_json_file(filename: str) -> Any:
     """Открытие j-son файла с транзакциями"""
     try:
-        logger.info("Запуск приложения")
         logger.info("Проверка корректности входных данных")
         with open(filename, encoding="UTF-8") as transactions_file:
             transactions = json.load(transactions_file)
@@ -56,18 +60,21 @@ def processing_json_file(filename: str) -> Any:
                 logger.info("Данные успешно прошли проверку")
         return transactions
     except Exception as err:
-        logger.warning(f"Произошла ошибка: {err}", exc_info=True)
+        logger.error(f"Произошла ошибка: {err}", exc_info=True)
 
 
-def sum_transactions(transactions_data: list[dict]) -> float:
+def sum_transactions(transactions_data: list[dict[str, dict]]) -> Any:
     """Возвращает сумму всех транзакций в рублях"""
-    logger.info("Запуск программы конвертации валюты")
     try:
-        logger.info("Получение данных о валюте каждой отдельной транзакции")
+        logger.info("Запуск программы конвертации валюты")
         list_currency = []
         list_amount = []
         finish_amount = 0.0
         received_currency = "USD"
+        # conversion = currency_conversion(received_currency)
+        conversion = 85.77  # Курс валюты на случай запуска функции без интернета и т.п. (Необходимо раскомментировать)
+
+        logger.info("Получение данных о валюте каждой отдельной транзакции")
         for transact_dicts in transactions_data:
             currency_current_transact = transact_dicts["operationAmount"]["currency"]["code"]
             amount_current_transact = float(transact_dicts["operationAmount"]["amount"])
@@ -82,19 +89,18 @@ def sum_transactions(transactions_data: list[dict]) -> float:
                     else:
                         continue
         logger.info("Получение актуальных данных о курсе иностранных валют")
-        conversion = 85.66
         logger.info("Применяем конвертацию к сумме каждой транзакции с иностранной валютой")
         for amount_one_transact in list_amount:
             multiply = conversion * amount_one_transact
             finish_amount = finish_amount + multiply
+
         logger.info("Возвращаем сумму всех транзакций в рублях")
         logger.info("Конец работы приложения")
         return round(finish_amount, 2)
     except Exception as err:
-        logger.warning(f"Произошла ошибка: {err}", exc_info=True)
+        logger.error(f"Произошла ошибка: {err}", exc_info=True)
 
 
 if __name__ == "__main__":
     data_file = processing_json_file(file_json)
-    sum_all_transacts = sum_transactions(data_file)
-    print(sum_all_transacts)
+    print(sum_transactions(data_file))
