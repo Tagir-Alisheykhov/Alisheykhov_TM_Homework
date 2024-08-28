@@ -6,10 +6,12 @@ from typing import Any
 
 from dotenv import load_dotenv
 
-from src.external_api import currency_conversion
+# from src.external_api import currency_conversion
 
 load_dotenv()
 API_KEY = os.getenv("KEY_API")
+new_filename = "operations"
+path_to_data = path.join(path.dirname(path.dirname(__file__)), "data/")
 file_json = path.join(path.dirname(path.dirname(__file__)), "data/operations.json")
 path_to_logs = path.join(path.dirname(path.dirname(__file__)), "logs/utils.log")
 
@@ -25,11 +27,11 @@ logger = logging.getLogger(__name__)
 logger.info("Запуск программы конвертации валюты")
 
 
-def processing_json_file(filename: str) -> Any:
+def processing_json_file(path_to_d: str, new_name="new_file") -> Any:
     """Открытие j-son файла с транзакциями"""
     try:
         logger.info("Проверка корректности входных данных")
-        with open(filename, encoding="UTF-8") as transactions_file:
+        with open(path_to_d + new_name + ".json", encoding="UTF-8") as transactions_file:
             transactions = json.load(transactions_file)
             status_operation = False
             if transactions == "":
@@ -102,5 +104,5 @@ def sum_transactions(transactions_data: list[dict[str, dict]]) -> Any:
 
 
 if __name__ == "__main__":
-    data_file = processing_json_file(file_json)
+    data_file = processing_json_file(path_to_data, new_filename)
     print(sum_transactions(data_file))
