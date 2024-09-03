@@ -28,7 +28,7 @@ logger.info("Запуск программы конвертации валюты
 
 
 def processing_json_file(path_to_d: str, new_name="new_file") -> Any:
-    """Открытие j-son файла с транзакциями"""
+    """Чтение j-son файла с транзакциями"""
     try:
         logger.info("Проверка корректности входных данных")
         with open(path_to_d + new_name + ".json", encoding="UTF-8") as transactions_file:
@@ -106,3 +106,4 @@ def sum_transactions(transactions_data: list[dict[str, dict]]) -> Any:
 if __name__ == "__main__":
     data_file = processing_json_file(path_to_data, new_filename)
     print(sum_transactions(data_file))
+    print(type(data_file))
