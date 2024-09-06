@@ -1,62 +1,64 @@
 # Пример входных данных
 from src.widget import get_data
+from os import path
+import json
+
+test_dict_list = [
+    {
+        "id": 41428829,
+        "state": "EXECUTED",
+        "date": "2019-07-03T18:35:29.512364"
+    },
+    {
+        "id": 939719570,
+        "state": "EXECUTED",
+        "date": "2018-06-30T02:08:58.425572"
+    },
+    {
+        "id": 594226727,
+        "state": "CANCELED",
+        "date": "2018-09-12T21:27:25.241689"
+    },
+    {
+        "id": 615064591,
+        "state": "CANCELED",
+        "date": "2018-10-14T08:21:33.419441"
+    },
+]
+
 
 # test_dict_list = [
-#     {
-#         "id": 41428829,
-#         "state": "EXECUTED",
-#         "date": "2019-07-03T18:35:29.512364"
+#   {
+#     "id": 441945886,
+#     "state": "CANCELED",
+#     "date": "2019-08-26T10:50:58.294041",
+#     "operationAmount": {
+#       "amount": "31957.58",
+#       "currency": {
+#         "name": "руб.",
+#         "code": "RUB"
+#       }
 #     },
-#     {
-#         "id": 939719570,
-#         "state": "EXECUTED",
-#         "date": "2018-06-30T02:08:58.425572"
-#     },
-#     {
-#         "id": 594226727,
-#         "state": "CANCELED",
-#         "date": "2018-09-12T21:27:25.241689"
-#     },
-#     {
-#         "id": 615064591,
-#         "state": "CANCELED",
-#         "date": "2018-10-14T08:21:33.419441"
-#     },
+#     "description": "Перевод организации",
+#     "from": "Maestro 1596837868705199",
+#     "to": "Счет 64686473678894779589"
+#   },
+#   {
+#     "id": 41428829,
+#     "state": "CANCELED",
+#     "date": "2019-07-03T18:35:29.512364",
+#     "operationAmount": {
+#       "amount": "8221.37",
+#       "currency": {
+#         "name": "USD",
+#         "code": "USD"
+#       }
+#     }
+#   }
 # ]
 
 
-test_dict_list = """[
-  {
-    "id": 441945886,
-    "state": "CANCELED",
-    "date": "2019-08-26T10:50:58.294041",
-    "operationAmount": {
-      "amount": "31957.58",
-      "currency": {
-        "name": "руб.",
-        "code": "RUB"
-      }
-    },
-    "description": "Перевод организации",
-    "from": "Maestro 1596837868705199",
-    "to": "Счет 64686473678894779589"
-  },
-  {
-    "id": 41428829,
-    "state": "CANCELED",
-    "date": "2019-07-03T18:35:29.512364",
-    "operationAmount": {
-      "amount": "8221.37",
-      "currency": {
-        "name": "USD",
-        "code": "USD"
-      }
-    }
-  }
-]"""
-
-
-def filter_by_state(list_dict: str, state: str = "EXECUTED") -> str:
+def filter_by_state(list_dict: list[dict], state: str = "EXECUTED") -> list[dict]:
     """
     Принимает список словарей и опционально значение для ключа state (по умолчанию 'EXECUTED').
     Функция возвращает новый список словарей, содержащий только те словари, у которых ключ state
@@ -64,16 +66,10 @@ def filter_by_state(list_dict: str, state: str = "EXECUTED") -> str:
     """
     filtered_list_dict = []
     for dict_values in list_dict:
-        for key in dict_values:
-            # -----------------------------------------
-
-
-            print(list_dict)
-            # -----------------------------------------
-            # if state == dict_values[key]:
-            #     filtered_list_dict.append(dict_values)
-            # print(state)
-    # return filtered_list_dict
+        for _value_ in dict_values.values():
+            if _value_ == state.upper():
+                filtered_list_dict.append(dict_values)
+    return filtered_list_dict
 
 
 def sort_by_date(list_dict: list[dict], is_sort_default: bool = True) -> list[dict]:
@@ -92,6 +88,7 @@ def sort_by_date(list_dict: list[dict], is_sort_default: bool = True) -> list[di
         return sorted(list_dict, key=lambda dict_list: dict_list["date"])
 
 
-if __name__ == "__main__":
-    print(filter_by_state(test_dict_list, state="CANCELED"))
-    # print(sort_by_date(test_dict_list))
+# if __name__ == "__main__":
+#     print(filter_by_state(test_dict_list, state="CANCELED"))
+#     print(sort_by_date(test_dict_list))
+
