@@ -66,7 +66,6 @@ def search_by_status() -> Any:
                 continue_cycle_1 = False
         except AttributeError:
             logger.warning('\nПрограмма: Неверный ввод. Пожалуйста, выберите цифру от 1 до 3\n')
-    # try:
     while continue_cycle_2:
         choice = input(
                 '\nПрограмма: Введите статус, по которому необходимо выполнить фильтрацию.\n'
@@ -83,9 +82,6 @@ def search_by_status() -> Any:
     logger.info(f'\nПрограмма: Операции отфильтрованы по статусу: \'{filter_value.upper()}\'')
     result = filter_by_state(processing_file, filter_value)
     return result
-    # except Exception as error:
-    #     logger.error(f'Возникла ошибка: {error}')
-    #     return result
 
 
 def quantity_and_categories(operations: list[dict], list_category_operations: list) -> dict[str, int]:
@@ -137,5 +133,3 @@ def quantity_and_categories(operations: list[dict], list_category_operations: li
     except Exception as error:
         logger.error(f'Возникла ошибка: {error}')
         return dict_with_categories
-
-# check pytest
