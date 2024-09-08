@@ -6,8 +6,6 @@ from typing import Any
 
 from dotenv import load_dotenv
 
-# from src.external_api import currency_conversion
-
 load_dotenv()
 API_KEY = os.getenv("KEY_API")
 new_filename = "operations"
@@ -27,42 +25,39 @@ logger = logging.getLogger(__name__)
 logger.info("Запуск программы конвертации валюты")
 
 
-def processing_json_file(path_to_d: str, new_name="new_file") -> Any:
+def processing_json_file(path_to_d: str) -> Any:
     """Чтение j-son файла с транзакциями"""
-    try:
-        logger.info("Проверка корректности входных данных")
-        with open(path_to_d + new_name + ".json", encoding="UTF-8") as transactions_file:
-            transactions = json.load(transactions_file)
-            status_operation = False
-            if transactions == "":
-                raise ValueError("Передан пустой файл")
-            for transact in transactions:
+    logger.info("Проверка корректности входных данных")
+    with open(path_to_d, encoding="UTF-8") as transactions_file:
+        transactions = json.load(transactions_file)
+        status_operation = False
+        if transactions == "":
+            raise ValueError("Передан пустой файл")
+        for transact in transactions:
+            if (
+                "id" not in transact
+                and "state" not in transact
+                and "operationAmount" not in transact
+                and "description" not in transact
+            ):
+                continue
+            else:
                 if (
                     "id" not in transact
-                    and "state" not in transact
-                    and "operationAmount" not in transact
-                    and "description" not in transact
+                    or "state" not in transact
+                    or "operationAmount" not in transact
+                    or "description" not in transact
                 ):
-                    continue
+                    raise KeyError("Отсутствует обязательный ключ в транзакции")
+                elif len(str(transact["operationAmount"]["currency"]["code"])) != 3 or not isinstance(
+                    transact["operationAmount"]["currency"]["code"], str
+                ):
+                    raise ValueError("Неверный трехзначный код валюты в транзакции")
                 else:
-                    if (
-                        "id" not in transact
-                        or "state" not in transact
-                        or "operationAmount" not in transact
-                        or "description" not in transact
-                    ):
-                        raise KeyError("Отсутствует обязательный ключ в транзакции")
-                    elif len(str(transact["operationAmount"]["currency"]["code"])) != 3 or not isinstance(
-                        transact["operationAmount"]["currency"]["code"], str
-                    ):
-                        raise ValueError("Неверный трехзначный код валюты в транзакции")
-                    else:
-                        status_operation = True
-            if status_operation:
-                logger.info("Данные успешно прошли проверку")
-        return transactions
-    except Exception as err:
-        logger.error(f"Произошла ошибка: {err}", exc_info=True)
+                    status_operation = True
+        if status_operation:
+            logger.info("Данные успешно прошли проверку")
+    return transactions
 
 
 def sum_transactions(transactions_data: list[dict[str, dict]]) -> Any:
@@ -106,4 +101,3 @@ def sum_transactions(transactions_data: list[dict[str, dict]]) -> Any:
 if __name__ == "__main__":
     data_file = processing_json_file(path_to_data, new_filename)
     print(sum_transactions(data_file))
-    print(type(data_file))

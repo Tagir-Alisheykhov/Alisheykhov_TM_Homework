@@ -18,11 +18,16 @@ invalid_empty_file = path.join(
 mini_file_json = path.join(path.dirname(path.dirname(__file__)), "data_for_tests/mini_operations.json")
 
 
-def open_file_with_tests_transactions() -> Any:
-    """Данные для теста корректности работы функции processing_json_file"""
-    with open(mini_file_json, encoding="UTF-8") as f:
+def open_file_with_tests_transactions(mini_file) -> Any:
+    """Чтение файла с транзакциями для функции"""
+    with open(mini_file, encoding="UTF-8") as f:
         json_file = json.load(f)
+        # js_re = f.read()
     return json_file
+
+
+filtered_data = open_file_with_tests_transactions(mini_file_json)
+result_sum_all_operations = sum_transactions(filtered_data)
 
 
 def test_processing_json_file() -> None:
@@ -53,5 +58,3 @@ def test_sum_transactions() -> None:
     assert sum_transactions(filtered_data) == result_sum_all_operations
 
 
-filtered_data = open_file_with_tests_transactions()
-result_sum_all_operations = sum_transactions(filtered_data)

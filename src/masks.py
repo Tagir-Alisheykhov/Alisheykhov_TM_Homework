@@ -29,48 +29,42 @@ logger = logging.getLogger(__name__)
 
 def get_mask_card_number(cart_numb: str | int) -> Any:
     """Возвращает номер карты с маской"""
-    try:
-        logger.info("Запуск функции маскировки номера карты")
-        cart_numb_str = str(cart_numb)
-        logger.info("Проверка корректности номера карты")
-        if cart_numb == "":
-            raise ValueError("Нет данных")
-        if not cart_numb_str.isdigit():
-            raise ValueError("Номер должен состоять только из цифр")
-        if len(cart_numb_str) != 16:
-            raise ValueError("Неверный номер карты")
-        new_list = list()
-        logger.info("Номер карты корректный")
-        logger.info("Процесс преобразования номера карты")
-        new_list.append(cart_numb_str[0:4])
-        new_list.append(cart_numb_str[4:6] + "**")
-        new_list.append("****")
-        new_list.append(cart_numb_str[12:])
-        logger.info("Завершение функции маскировки номера карты")
-        return " ".join(new_list)
-    except Exception as err:
-        logger.error(f"Произошла ошибка: {err}")
+    logger.info("Запуск функции маскировки номера карты")
+    cart_numb_str = str(cart_numb)
+    logger.info("Проверка корректности номера карты")
+    if cart_numb == '':
+        raise ValueError("Нет данных")
+    if not cart_numb_str.isdigit():
+        raise ValueError("Номер должен состоять только из цифр")
+    if len(cart_numb_str) != 16:
+        raise ValueError("Неверный номер карты")
+    new_list = list()
+    logger.info("Номер карты корректный")
+    logger.info("Процесс преобразования номера карты")
+    new_list.append(cart_numb_str[0:4])
+    new_list.append(cart_numb_str[4:6] + "**")
+    new_list.append("****")
+    new_list.append(cart_numb_str[12:])
+    logger.info("Завершение функции маскировки номера карты")
+    return " ".join(new_list)
 
 
 def get_mask_account(account_number: str) -> Any:
     """Возвращает номер счета с маской"""
-    try:
-        logger.info("Запуск функции маскировки номера счёта")
-        account_number_str = str(account_number)
-        logger.info("Проверка корректности номера счёта")
-        if account_number == "":
-            raise ValueError("Нет данных")
-        if not account_number_str.isdigit():
-            raise ValueError("Номер должен состоять только из цифр")
-        if len(account_number_str) != 20:
-            raise ValueError("Неверный номер счета")
-        logger.info("Процесс преобразования номера счёта")
-        new_list = list()
-        new_list.append("**" + account_number_str[-4:])
-        logger.info("Завершение функции маскировки номера счёта")
-        return " ".join(new_list)
-    except Exception as err:
-        logger.error(f"Произошла ошибка: {err}")
+    logger.info("Запуск функции маскировки номера счёта")
+    account_number_str = str(account_number)
+    logger.info("Проверка корректности номера счёта")
+    if account_number == "":
+        raise ValueError("Нет данных")
+    if not account_number_str.isdigit():
+        raise ValueError("Номер должен состоять только из цифр")
+    if len(account_number_str) != 20:
+        raise ValueError("Неверный номер счета")
+    logger.info("Процесс преобразования номера счёта")
+    new_list = list()
+    new_list.append("**" + account_number_str[-4:])
+    logger.info("Завершение функции маскировки номера счёта")
+    return " ".join(new_list)
 
 
 # Входные данные и их вывод для теста функций
