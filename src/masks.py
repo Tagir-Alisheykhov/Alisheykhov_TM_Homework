@@ -26,8 +26,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-logger.info("Запуск программы маскировки номера карты и счёта")
-
 
 def get_mask_card_number(cart_numb: str | int) -> Any:
     """Возвращает номер карты с маской"""

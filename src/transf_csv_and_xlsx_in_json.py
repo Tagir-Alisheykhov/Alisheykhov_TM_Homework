@@ -47,6 +47,10 @@ def read_xlsx_file(xlsx: pd.DataFrame, new_name: str = "transactions") -> str:
 if __name__ == "__main__":
     df_csv = pd.read_csv(path_to_data + "transactions.csv", delimiter=";", encoding="UTF-8")
     df_xlsx = pd.read_excel(path_to_data + "transactions_excel.xlsx")
+
+    print(df_csv.head())
+    print(df_xlsx.head())
+
     read_csv = read_csv_file(df_csv)
     read_xlsx = read_xlsx_file(df_xlsx)
     print(read_csv)
